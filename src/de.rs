@@ -244,6 +244,7 @@ impl<'a, 'de> de::Deserializer<'de> for &'a Deserializer<'de> {
             },
             Value::Record(ref fields) => visitor.visit_map(StructDeserializer::new(fields)),
             Value::Array(ref fields) => visitor.visit_seq(SeqDeserializer::new(fields)),
+            Value::String(s) => visitor.visit_str(s),
             value => Err(de::Error::custom(format!(
                 "incorrect value of type: {:?}",
                 crate::schema::SchemaKind::from(value)
